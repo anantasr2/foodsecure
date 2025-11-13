@@ -5,4 +5,3 @@ scikit-learn==1.7.1
 xgboost==1.7.1
 pandas
 gunicorn
-pickle
