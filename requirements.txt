@@ -1,10 +1,7 @@
-Flask
-gunicorn
+flask-cors
+flask
+numpy
+scikit-learn
 xgboost
 pandas
-scikit-learn
-setuptools
-wheel
-flask_cors
-numpy==1.24.3
-pandas
+gunicorn
