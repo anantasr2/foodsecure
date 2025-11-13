@@ -276,9 +276,9 @@ if __name__ == '__main__':
     print(f"🤖 Model Status: {'✓ Loaded' if model else '✗ Not Loaded'}")
     print(f"📊 Scaler Status: {'✓ Loaded' if scaler else '✗ Not Loaded'}")
     print("="*60)
-    print("📌 Local: http://localhost:5000")
-    print("📌 Network: http://0.0.0.0:5000")
+    print("📌 Local: http://localhost:8080")
+    print("📌 Network: http://0.0.0.0:8080")
     print("="*60 + "\n")
     
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     
