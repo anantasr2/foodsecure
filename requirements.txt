@@ -7,6 +7,5 @@ setuptools
 wheel
 flask_cors
 numpy
-pickle
 traceback
 pandas
