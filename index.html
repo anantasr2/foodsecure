@@ -1433,13 +1433,8 @@ select:focus-visible {
     </footer>
 
     <script>
-        // Configuration - Deteksi otomatis environment
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000'  // Development
-    : window.location.origin;   // Production (Railway)
-
-console.log('🌐 API URL:', API_URL);
-console.log('🌍 Current hostname:', window.location.hostname);
+        // Configuration
+const API_URL = 'http://localhost:5000';
 
 // Smooth scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1488,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('❌ API tidak dapat dijangkau:', error);
-            showNotification('❌ API tidak dapat dijangkau. Pastikan server berjalan!', 'error');
+            showNotification('❌ API tidak dapat dijangkau. Pastikan Flask server berjalan!', 'error');
         }
     }
     
@@ -1628,7 +1623,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let errorMessage = '';
             
             if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                errorMessage = '🔌 Tidak dapat terhubung ke server. Silakan coba lagi.';
+                errorMessage = '🔌 Tidak dapat terhubung ke server.\n\nPastikan:\n1. Flask API berjalan di http://localhost:5000\n2. Tidak ada firewall yang memblokir\n3. Port 5000 tidak digunakan aplikasi lain';
             } else {
                 errorMessage = '❌ ' + error.message;
             }
@@ -1646,6 +1641,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle reset button
     if (resetBtn) {
         resetBtn.addEventListener('click', function() {
+            // Langsung reset form tanpa konfirmasi
             form.reset();
             scoreElement.textContent = '00.00';
             confidenceElement.textContent = '00.00%';
@@ -1655,6 +1651,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('🔄 Form reset');
         });
     }
+
     
     // Animate number changes
     function animateValue(element, start, end, duration, decimals = 0, suffix = '') {
@@ -1680,6 +1677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Show notification
     function showNotification(message, type = 'info') {
+        // Remove existing notification if any
         const existingNotif = document.querySelector('.notification');
         if (existingNotif) {
             existingNotif.remove();
