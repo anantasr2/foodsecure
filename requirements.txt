@@ -2,6 +2,7 @@ flask-cors
 flask
 numpy
 scikit-learn==1.7.1
-xgboost
+xgboost==1.7.1
 pandas
 gunicorn
+pickle
