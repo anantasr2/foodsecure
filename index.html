@@ -1,1701 +1,1703 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodSecure - Prediction AI</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            min-height: 100vh;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        .logo-text h1 {
-            font-size: 1.5rem;
-            color: #1f2937;
-            font-weight: 700;
-        }
-
-        .logo-text p {
-            font-size: 0.9rem;
-            color: #10b981;
-            font-weight: 500;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #4b5563;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #10b981;
-        }
-
-        .btn-primary {
-            background: #10b981;
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #10b981;
-            padding: 0.8rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 2px solid #10b981;
-        }
-
-        .btn-secondary:hover {
-            background: #f0fdf4;
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            padding: 5rem 5%;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hero-content h2 {
-            font-size: 3.5rem;
-            color: #1f2937;
-            font-weight: 800;
-            line-height: 1.0;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-content p {
-            font-size: 1.15rem;
-            color: #6b7280;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .hero-visual {
-            background: white;
-            padding: 1rem;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-
-        .visual-content {
-            text-align: center;
-        }
-
-        .bars-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 1rem;
-            height: 250px;
-            margin: 2rem 0;
-        }
-
-        .bar {
-            width: 35px;
-            background: linear-gradient(180deg, #10b981 0%, #34d399 100%);
-            border-radius: 10px 10px 0 0;
-            animation: growBar 1.5s ease-out forwards;
-            transform-origin: bottom;
-        }
-
-        @keyframes growBar {
-            from { height: 0; }
-        }
-
-        .bar:nth-child(1) { height: 180px; animation-delay: 0.1s; }
-        .bar:nth-child(2) { height: 200px; animation-delay: 0.2s; }
-        .bar:nth-child(3) { height: 220px; animation-delay: 0.3s; }
-        .bar:nth-child(4) { height: 190px; animation-delay: 0.4s; }
-        .bar:nth-child(5) { height: 150px; animation-delay: 0.5s; }
-        .bar:nth-child(6) { height: 130px; animation-delay: 0.6s; }
-
-        .visual-title {
-            font-size: 1.8rem;
-            color: #10b981;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .visual-subtitle {
-            color: #6b7280;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .badges {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 0.5rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .badge-green {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-blue {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .badge-purple {
-            background: #e9d5ff;
-            color: #6b21a8;
-        }
-
-        /* Form Section */
-        .form-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 5%;
-        }
-
-        .section-badge {
-            display: inline-block;
-            background: #ffffff;
-            color: #065f46;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 3rem auto 1rem;
-        }
-
-        .section-title {
-            font-size: 2.7rem;
-            font-weight: 800;
-            text-align: center;
-            margin: 0 0 1rem 0;
-            line-height: 1.1;
-            color: #1f2937;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #4b5563;
-            font-size: 1.15rem;
-            margin-bottom: 2rem;
-            font-weight: 400;
-        }
-
-        .form-container {
-            background: #fff;
-            border: 1.5px solid #d1fae5;
-            border-radius: 14px;
-            box-shadow: 0 2px 12px rgba(16,185,129,0.04);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-title {
-            font-weight: 600;
-            color: #059669;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            flex: 1 1 42%;
-            min-width: 260px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        label {
-            font-size: 1rem;
-            color: #222;
-            font-weight: 500;
-        }
-
-        input, select {
-            padding: 0.7rem 1rem;
-            border: 1.5px solid #059669;
-            border-radius: 7px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-            background: #fff;
-            color: #222;
-        }
-
-        input:focus, select:focus {
-            border-color: #10b981;
-        }
-
-        .form-actions {
-            width: 100%;
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 0;
-            border-radius: 7px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-        }
-
-        .form-tip {
-            margin-top: 1.5rem;
-            background: #ecfdf5;
-            border: 1.5px solid #bbf7d0;
-            border-radius: 10px;
-            padding: 1rem 1.2rem;
-            color: #059669;
-            font-size: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-        }
-
-        /* Result Section */
-        .result-section {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 5%;
-        }
-
-        .result-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: #1f2937;
-        }
-
-        .result-card {
-            background: linear-gradient(120deg, #f0fdf4 100%, #d1fae5 0%);
-            border: 1.0px solid #b7e4c7;
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(16,185,129,0.1);
-            padding: 1rem;
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        .result-label {
-            font-size: 1.2rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .result-score {
-            font-size: 5rem;
-            font-weight: 800;
-            color: #059669;
-            margin-bottom: 1.5rem;
-            line-height: 1;
-        }
-
-        .result-confidence-label {
-            font-size: 1.1rem;
-            color: #4b5563;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .result-confidence {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #111;
-        }
-
-        /* Indicators Section */
-        .indicators-section {
-            padding: 5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: #1f2937;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            font-size: 1.1rem;
-            color: #6b7280;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            padding: 2rem 0;
-        }
-
-        .carousel-wrapper {
-            display: flex;
-            gap: 1.5rem;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0 3rem;
-        }
-
-        .indicator-card {
-            min-width: 320px;
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .indicator-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-
-        .icon-green { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); }
-        .icon-blue { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); }
-        .icon-purple { background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%); }
-        .icon-orange { background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%); }
-        .icon-red { background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); }
-        .icon-teal { background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); }
-
-        .indicator-card h3 {
-            font-size: 1.3rem;
-            color: #1f2937;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-        }
-
-        .indicator-card p {
-            color: #6b7280;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-
-        .carousel-nav:hover {
-            background: #10b981;
-        }
-
-        .carousel-nav:hover svg {
-            fill: white;
-        }
-
-        .carousel-nav svg {
-            width: 24px;
-            height: 24px;
-            fill: #1f2937;
-            transition: fill 0.3s;
-        }
-
-        .carousel-nav.prev { left: 0; }
-        .carousel-nav.next { right: 0; }
-
-        .carousel-nav:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #d1d5db;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            background: #10b981;
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 5rem 5%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .faq-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .faq-header h2 {
-            font-size: 2.5rem;
-            color: #1f2937;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .faq-header p {
-            font-size: 1.1rem;
-            color: #6b7280;
-        }
-
-        .faq-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .faq-question {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            background: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1f2937;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question:hover {
-            color: #10b981;
-        }
-
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            fill: #6b7280;
-            transition: transform 0.3s ease;
-            flex-shrink: 0;
-            margin-left: 1rem;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-            fill: #10b981;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            padding: 0 2rem;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 0 2rem 1.5rem 2rem;
-        }
-
-        .faq-answer p {
-            color: #6b7280;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #f0f9f4;
-            padding: 3rem 5% 1.5rem;
-            font-size: 1rem;
-            color: #374151;
-        }
-
-        .footer-top {
-            max-width: 1200px;
-            margin: 0 auto 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3rem;
-            justify-content: space-between;
-        }
-
-        .footer-col {
-            flex: 1 1 220px;
-            min-width: 220px;
-        }
-
-        .footer-brand {
-            max-width: 320px;
-        }
-
-        .footer-brand .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: #111827;
-            margin-bottom: 1rem;
-        }
-
-        .footer-brand .logo svg {
-            width: 28px;
-            height: 28px;
-            fill: #059669;
-            flex-shrink: 0;
-        }
-
-        .footer-brand p {
-            font-size: 1rem;
-            color: #4b5563;
-            line-height: 1.5;
-        }
-
-        .footer-col h4 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #111827;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-col a {
-            color: #4b5563;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-col a:hover {
-            color: #059669;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            color: #4b5563;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .contact-item svg {
-            width: 20px;
-            height: 20px;
-            fill: #059669;
-            flex-shrink: 0;
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            border-top: 1px solid #d1e7d6;
-            padding-top: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #4b5563;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-bottom .links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-bottom a {
-            color: #4b5563;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer-bottom a:hover {
-            color: #059669;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 3rem 5%;
-                gap: 2rem;
-            }
-            .hero-content h2 {
-                font-size: 2.5rem;
-            }
-            .nav-links {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-content h2 {
-                font-size: 2rem;
-            }
-            .hero-buttons {
-                flex-direction: column;
-            }
-            .bars-container {
-                height: 180px;
-            }
-            .bar {
-                width: 25px;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .section-header h2 {
-                font-size: 2rem;
-            }
-            .indicator-card {
-                min-width: 280px;
-            }
-            .carousel-nav {
-                width: 40px;
-                height: 40px;
-            }
-            .faq-header h2 {
-                font-size: 1.8rem;
-            }
-            .faq-question {
-                padding: 1.2rem 1.5rem;
-                font-size: 1rem;
-            }
-            .form-group {
-                flex: 1 1 100%;
-            }
-            .form-actions {
-                flex-direction: column;
-            }
-            .result-card {
-                padding: 2rem;
-            }
-            .result-score {
-                font-size: 3rem;
-            }
-            .footer-top {
-                flex-direction: column;
-                gap: 2rem;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-
-        /* TAMBAHAN */
-        /* Notification Styles */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoodSecure - Prediction AI</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+min-height: 100vh;
+}
+
+/* Navigation */
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1.5rem 5%;
+background: white;
+box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+display: flex;
+align-items: center;
+gap: 0.8rem;
+}
+
+.logo-icon {
+width: 50px;
+height: 50px;
+background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.logo-icon svg {
+width: 30px;
+height: 30px;
+fill: white;
+}
+
+.logo-text h1 {
+font-size: 1.5rem;
+color: #1f2937;
+font-weight: 700;
+}
+
+.logo-text p {
+font-size: 0.9rem;
+color: #10b981;
+font-weight: 500;
+}
+
+.nav-links {
+display: flex;
+gap: 2.5rem;
+list-style: none;
+}
+
+.nav-links a {
+text-decoration: none;
+color: #4b5563;
+font-weight: 500;
+font-size: 1rem;
+transition: color 0.3s;
+}
+
+.nav-links a:hover {
+color: #10b981;
+}
+
+.btn-primary {
+background: #10b981;
+color: white;
+padding: 0.8rem 2rem;
+border-radius: 10px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s;
+border: none;
+cursor: pointer;
+}
+
+.btn-primary:hover {
+background: #059669;
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+background: white;
+color: #10b981;
+padding: 0.8rem 2rem;
+border-radius: 10px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s;
+border: 2px solid #10b981;
+}
+
+.btn-secondary:hover {
+background: #f0fdf4;
+transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 4rem;
+padding: 5rem 5%;
+align-items: center;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.hero-content h2 {
+font-size: 3.5rem;
+color: #1f2937;
+font-weight: 800;
+line-height: 1.0;
+margin-bottom: 1.5rem;
+}
+
+.hero-content p {
+font-size: 1.15rem;
+color: #6b7280;
+line-height: 1.8;
+margin-bottom: 2.5rem;
+}
+
+.hero-buttons {
+display: flex;
+gap: 1.5rem;
+}
+
+.hero-visual {
+background: white;
+padding: 1rem;
+border-radius: 30px;
+box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+.visual-content {
+text-align: center;
+}
+
+.bars-container {
+display: flex;
+justify-content: center;
+align-items: flex-end;
+gap: 1rem;
+height: 250px;
+margin: 2rem 0;
+}
+
+.bar {
+width: 35px;
+background: linear-gradient(180deg, #10b981 0%, #34d399 100%);
+border-radius: 10px 10px 0 0;
+animation: growBar 1.5s ease-out forwards;
+transform-origin: bottom;
+}
+
+@keyframes growBar {
+from { height: 0; }
+}
+
+.bar:nth-child(1) { height: 180px; animation-delay: 0.1s; }
+.bar:nth-child(2) { height: 200px; animation-delay: 0.2s; }
+.bar:nth-child(3) { height: 220px; animation-delay: 0.3s; }
+.bar:nth-child(4) { height: 190px; animation-delay: 0.4s; }
+.bar:nth-child(5) { height: 150px; animation-delay: 0.5s; }
+.bar:nth-child(6) { height: 130px; animation-delay: 0.6s; }
+
+.visual-title {
+font-size: 1.8rem;
+color: #10b981;
+font-weight: 700;
+margin-bottom: 1rem;
+}
+
+.visual-subtitle {
+color: #6b7280;
+font-size: 1rem;
+line-height: 1.6;
+margin-bottom: 2rem;
+}
+
+.badges {
+display: flex;
+justify-content: center;
+gap: 1rem;
+flex-wrap: wrap;
+}
+
+.badge {
+padding: 0.5rem 1.2rem;
+border-radius: 20px;
+font-size: 0.9rem;
+font-weight: 600;
+}
+
+.badge-green {
+background: #d1fae5;
+color: #065f46;
+}
+
+.badge-blue {
+background: #dbeafe;
+color: #1e40af;
+}
+
+.badge-purple {
+background: #e9d5ff;
+color: #6b21a8;
+}
+
+/* Form Section */
+.form-section {
+max-width: 900px;
+margin: 0 auto;
+padding: 0 5%;
+}
+
+.section-badge {
+display: inline-block;
+background: #ffffff;
+color: #065f46;
+padding: 0.5rem 1.5rem;
+border-radius: 20px;
+font-size: 0.9rem;
+font-weight: 600;
+margin: 3rem auto 1rem;
+}
+
+.section-title {
+font-size: 2.7rem;
+font-weight: 800;
+text-align: center;
+margin: 0 0 1rem 0;
+line-height: 1.1;
+color: #1f2937;
+}
+
+.section-subtitle {
+text-align: center;
+color: #4b5563;
+font-size: 1.15rem;
+margin-bottom: 2rem;
+font-weight: 400;
+}
+
+.form-container {
+background: #fff;
+border: 1.5px solid #d1fae5;
+border-radius: 14px;
+box-shadow: 0 2px 12px rgba(16,185,129,0.04);
+padding: 2rem;
+margin-bottom: 2rem;
+}
+
+.form-title {
+font-weight: 600;
+color: #059669;
+font-size: 1.1rem;
+margin-bottom: 1.5rem;
+}
+
+form {
+display: flex;
+flex-wrap: wrap;
+gap: 1.5rem;
+}
+
+.form-group {
+flex: 1 1 42%;
+min-width: 260px;
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+}
+
+label {
+font-size: 1rem;
+color: #222;
+font-weight: 500;
+}
+
+input, select {
+padding: 0.7rem 1rem;
+border: 1.5px solid #059669;
+border-radius: 7px;
+font-size: 1rem;
+outline: none;
+transition: border-color 0.2s;
+background: #fff;
+color: #222;
+}
+
+input:focus, select:focus {
+border-color: #10b981;
+}
+
+.form-actions {
+width: 100%;
+display: flex;
+gap: 1rem;
+margin-top: 1rem;
+}
+
+.btn {
+padding: 0.8rem 0;
+border-radius: 7px;
+font-size: 1.1rem;
+font-weight: 600;
+border: none;
+cursor: pointer;
+transition: all 0.3s;
+flex: 1;
+}
+
+.form-tip {
+margin-top: 1.5rem;
+background: #ecfdf5;
+border: 1.5px solid #bbf7d0;
+border-radius: 10px;
+padding: 1rem 1.2rem;
+color: #059669;
+font-size: 1rem;
+display: flex;
+align-items: flex-start;
+gap: 0.8rem;
+}
+
+/* Result Section */
+.result-section {
+max-width: 900px;
+margin: 3rem auto;
+padding: 0 5%;
+}
+
+.result-title {
+font-size: 2.5rem;
+font-weight: 800;
+margin-bottom: 1.5rem;
+color: #1f2937;
+}
+
+.result-card {
+background: linear-gradient(120deg, #f0fdf4 100%, #d1fae5 0%);
+border: 1.0px solid #b7e4c7;
+border-radius: 24px;
+box-shadow: 0 4px 20px rgba(16,185,129,0.1);
+padding: 1rem;
+min-height: 280px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+margin-top: 25px;
+}
+
+.result-label {
+font-size: 1.2rem;
+color: #4b5563;
+margin-bottom: 1rem;
+font-weight: 500;
+}
+
+.result-score {
+font-size: 5rem;
+font-weight: 800;
+color: #059669;
+margin-bottom: 1.5rem;
+line-height: 1;
+}
+
+.result-confidence-label {
+font-size: 1.1rem;
+color: #4b5563;
+margin-bottom: 0.5rem;
+font-weight: 500;
+}
+
+.result-confidence {
+font-size: 2rem;
+font-weight: 700;
+color: #111;
+}
+
+/* Indicators Section */
+.indicators-section {
+padding: 5rem 5%;
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.section-header {
+text-align: center;
+margin-bottom: 3rem;
+}
+
+.section-header h2 {
+font-size: 2.5rem;
+color: #1f2937;
+font-weight: 800;
+margin-bottom: 1rem;
+}
+
+.section-header p {
+font-size: 1.1rem;
+color: #6b7280;
+max-width: 600px;
+margin: 0 auto;
+}
+
+.carousel-container {
+position: relative;
+overflow: hidden;
+padding: 2rem 0;
+}
+
+.carousel-wrapper {
+display: flex;
+gap: 1.5rem;
+transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+padding: 0 3rem;
+}
+
+.indicator-card {
+min-width: 320px;
+background: white;
+border-radius: 20px;
+padding: 2rem;
+box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+transition: all 0.3s ease;
+cursor: pointer;
+}
+
+.indicator-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
+}
+
+.card-icon {
+width: 60px;
+height: 60px;
+border-radius: 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 1.5rem;
+font-size: 2rem;
+}
+
+.icon-green { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); }
+.icon-blue { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); }
+.icon-purple { background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%); }
+.icon-orange { background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%); }
+.icon-red { background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); }
+.icon-teal { background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); }
+
+.indicator-card h3 {
+font-size: 1.3rem;
+color: #1f2937;
+font-weight: 700;
+margin-bottom: 0.8rem;
+}
+
+.indicator-card p {
+color: #6b7280;
+line-height: 1.6;
+font-size: 0.95rem;
+}
+
+.carousel-nav {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+width: 50px;
+height: 50px;
+background: white;
+border: none;
+border-radius: 50%;
+box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s;
+z-index: 10;
+}
+
+.carousel-nav:hover {
+background: #10b981;
+}
+
+.carousel-nav:hover svg {
+fill: white;
+}
+
+.carousel-nav svg {
+width: 24px;
+height: 24px;
+fill: #1f2937;
+transition: fill 0.3s;
+}
+
+.carousel-nav.prev { left: 0; }
+.carousel-nav.next { right: 0; }
+
+.carousel-nav:disabled {
+opacity: 0.3;
+cursor: not-allowed;
+}
+
+.carousel-dots {
+display: flex;
+justify-content: center;
+gap: 0.5rem;
+margin-top: 2rem;
+}
+
+.dot {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: #d1d5db;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.dot.active {
+background: #10b981;
+width: 24px;
+border-radius: 4px;
+}
+
+/* FAQ Section */
+.faq-section {
+padding: 5rem 5%;
+max-width: 1000px;
+margin: 0 auto;
+}
+
+.faq-header {
+text-align: center;
+margin-bottom: 3rem;
+}
+
+.faq-header h2 {
+font-size: 2.5rem;
+color: #1f2937;
+font-weight: 800;
+margin-bottom: 1rem;
+}
+
+.faq-header p {
+font-size: 1.1rem;
+color: #6b7280;
+}
+
+.faq-container {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+}
+
+.faq-item {
+background: white;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1.5rem 2rem;
+background: white;
+border: none;
+cursor: pointer;
+font-size: 1.1rem;
+font-weight: 600;
+color: #1f2937;
+text-align: left;
+transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+color: #10b981;
+}
+
+.faq-icon {
+width: 24px;
+height: 24px;
+fill: #6b7280;
+transition: transform 0.3s ease;
+flex-shrink: 0;
+margin-left: 1rem;
+}
+
+.faq-item.active .faq-icon {
+transform: rotate(180deg);
+fill: #10b981;
+}
+
+.faq-answer {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.3s ease, padding 0.3s ease;
+padding: 0 2rem;
+}
+
+.faq-item.active .faq-answer {
+max-height: 500px;
+padding: 0 2rem 1.5rem 2rem;
+}
+
+.faq-answer p {
+color: #6b7280;
+line-height: 1.7;
+font-size: 1rem;
+}
+
+/* Footer */
+footer {
+background-color: #f0f9f4;
+padding: 3rem 5% 1.5rem;
+font-size: 1rem;
+color: #374151;
+}
+
+.footer-top {
+max-width: 1200px;
+margin: 0 auto 2rem;
+display: flex;
+flex-wrap: wrap;
+gap: 3rem;
+justify-content: space-between;
+}
+
+.footer-col {
+flex: 1 1 220px;
+min-width: 220px;
+}
+
+.footer-brand {
+max-width: 320px;
+}
+
+.footer-brand .logo {
+display: flex;
+align-items: center;
+gap: 0.8rem;
+font-weight: 700;
+font-size: 1.25rem;
+color: #111827;
+margin-bottom: 1rem;
+}
+
+.footer-brand .logo svg {
+width: 28px;
+height: 28px;
+fill: #059669;
+flex-shrink: 0;
+}
+
+.footer-brand p {
+font-size: 1rem;
+color: #4b5563;
+line-height: 1.5;
+}
+
+.footer-col h4 {
+font-weight: 700;
+font-size: 1.1rem;
+margin-bottom: 1rem;
+color: #111827;
+}
+
+.footer-col ul {
+list-style: none;
+padding: 0;
+}
+
+.footer-col ul li {
+margin-bottom: 0.8rem;
+}
+
+.footer-col a {
+color: #4b5563;
+text-decoration: none;
+transition: color 0.3s;
+}
+
+.footer-col a:hover {
+color: #059669;
+}
+
+.contact-item {
+display: flex;
+align-items: center;
+gap: 0.7rem;
+color: #4b5563;
+font-size: 1rem;
+margin-bottom: 0.8rem;
+}
+
+.contact-item svg {
+width: 20px;
+height: 20px;
+fill: #059669;
+flex-shrink: 0;
+}
+
+.footer-bottom {
+max-width: 1200px;
+margin: 0 auto;
+border-top: 1px solid #d1e7d6;
+padding-top: 1.5rem;
+display: flex;
+justify-content: space-between;
+font-size: 0.9rem;
+color: #4b5563;
+flex-wrap: wrap;
+gap: 1rem;
+}
+
+.footer-bottom .links {
+display: flex;
+gap: 1.5rem;
+}
+
+.footer-bottom a {
+color: #4b5563;
+text-decoration: none;
+font-weight: 500;
+}
+
+.footer-bottom a:hover {
+color: #059669;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+.hero {
+grid-template-columns: 1fr;
+padding: 3rem 5%;
+gap: 2rem;
+}
+.hero-content h2 {
+font-size: 2.5rem;
+}
+.nav-links {
+display: none;
+}
+}
+
+@media (max-width: 768px) {
+.hero-content h2 {
+font-size: 2rem;
+}
+.hero-buttons {
+flex-direction: column;
+}
+.bars-container {
+height: 180px;
+}
+.bar {
+width: 25px;
+}
+.section-title {
+font-size: 2rem;
+}
+.section-header h2 {
+font-size: 2rem;
+}
+.indicator-card {
+min-width: 280px;
+}
+.carousel-nav {
+width: 40px;
+height: 40px;
+}
+.faq-header h2 {
+font-size: 1.8rem;
+}
+.faq-question {
+padding: 1.2rem 1.5rem;
+font-size: 1rem;
+}
+.form-group {
+flex: 1 1 100%;
+}
+.form-actions {
+flex-direction: column;
+}
+.result-card {
+padding: 2rem;
+}
+.result-score {
+font-size: 3rem;
+}
+.footer-top {
+flex-direction: column;
+gap: 2rem;
+}
+.footer-bottom {
+flex-direction: column;
+align-items: center;
+}
+}
+
+
+/* TAMBAHAN */
+/* Notification Styles */
 .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    font-size: 0.95rem;
-    z-index: 9999;
-    max-width: 400px;
-    opacity: 0;
-    transform: translateX(100px);
-    transition: all 0.3s ease;
-    white-space: pre-line;
+position: fixed;
+top: 20px;
+right: 20px;
+padding: 1rem 1.5rem;
+border-radius: 10px;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+font-weight: 500;
+font-size: 0.95rem;
+z-index: 9999;
+max-width: 400px;
+opacity: 0;
+transform: translateX(100px);
+transition: all 0.3s ease;
+white-space: pre-line;
 }
 
 .notification.show {
-    opacity: 1;
-    transform: translateX(0);
+opacity: 1;
+transform: translateX(0);
 }
 
 .notification-success {
-    background: #d1fae5;
-    color: #065f46;
-    border: 2px solid #10b981;
+background: #d1fae5;
+color: #065f46;
+border: 2px solid #10b981;
 }
 
 .notification-error {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 2px solid #dc2626;
+background: #fee2e2;
+color: #991b1b;
+border: 2px solid #dc2626;
 }
 
 .notification-info {
-    background: #dbeafe;
-    color: #1e40af;
-    border: 2px solid #3b82f6;
+background: #dbeafe;
+color: #1e40af;
+border: 2px solid #3b82f6;
 }
 
 .notification-warning {
-    background: #fef3c7;
-    color: #92400e;
-    border: 2px solid #f59e0b;
+background: #fef3c7;
+color: #92400e;
+border: 2px solid #f59e0b;
 }
 
 /* Loading State Styles */
 .btn-primary:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-    transform: none;
+background: #9ca3af;
+cursor: not-allowed;
+transform: none;
 }
 
 .btn-secondary:disabled {
-    background: #f3f4f6;
-    color: #9ca3af;
-    border-color: #d1d5db;
-    cursor: not-allowed;
-    transform: none;
+background: #f3f4f6;
+color: #9ca3af;
+border-color: #d1d5db;
+cursor: not-allowed;
+transform: none;
 }
 
 /* Result Card Animation */
 .result-card {
-    transition: all 0.3s ease;
+transition: all 0.3s ease;
 }
 
 .result-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
+transform: translateY(-5px);
+box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
 }
 
 /* Score Animation */
 @keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: scale(0.9); 
-    }
-    to { 
-        opacity: 1; 
-        transform: scale(1); 
-    }
+from { 
+opacity: 0; 
+transform: scale(0.9); 
+}
+to { 
+opacity: 1; 
+transform: scale(1); 
+}
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+0%, 100% {
+opacity: 1;
+}
+50% {
+opacity: 0.5;
+}
 }
 
 .result-score, .result-confidence {
-    animation: fadeIn 0.5s ease;
+animation: fadeIn 0.5s ease;
 }
 
 /* Input Validation Styles */
 input:invalid {
-    border-color: #dc2626;
+border-color: #dc2626;
 }
 
 input:valid {
-    border-color: #10b981;
+border-color: #10b981;
 }
 
 input:focus:invalid {
-    border-color: #dc2626;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+border-color: #dc2626;
+box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
 
 input:focus:valid {
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+border-color: #10b981;
+box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 /* Form Processing State */
 .form-container.processing {
-    pointer-events: none;
-    opacity: 0.7;
+pointer-events: none;
+opacity: 0.7;
 }
 
 /* Tooltip Styles */
 .tooltip {
-    position: relative;
-    display: inline-block;
+position: relative;
+display: inline-block;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #1f2937;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 0.85rem;
+visibility: hidden;
+width: 200px;
+background-color: #1f2937;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 8px;
+position: absolute;
+z-index: 1;
+bottom: 125%;
+left: 50%;
+margin-left: -100px;
+opacity: 0;
+transition: opacity 0.3s;
+font-size: 0.85rem;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+visibility: visible;
+opacity: 1;
 }
 
 /* Mobile Notification Adjustments */
 @media (max-width: 768px) {
-    .notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        max-width: none;
-        font-size: 0.9rem;
-    }
+.notification {
+top: 10px;
+right: 10px;
+left: 10px;
+max-width: none;
+font-size: 0.9rem;
+}
 }
 
 /* Print Styles */
 @media print {
-    nav,
-    .hero,
-    .form-section,
-    .indicators-section,
-    .faq-section,
-    footer {
-        display: none;
-    }
-    
-    .result-section {
-        page-break-inside: avoid;
-    }
+nav,
+.hero,
+.form-section,
+.indicators-section,
+.faq-section,
+footer {
+display: none;
+}
+
+.result-section {
+page-break-inside: avoid;
+}
 }
 
 /* Accessibility Improvements */
 *:focus-visible {
-    outline: 2px solid #10b981;
-    outline-offset: 2px;
+outline: 2px solid #10b981;
+outline-offset: 2px;
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-    outline: 2px solid #10b981;
-    outline-offset: 2px;
+outline: 2px solid #10b981;
+outline-offset: 2px;
 }
 
 /* High Contrast Mode Support */
 @media (prefers-contrast: high) {
-    .btn-primary {
-        border: 2px solid #000;
-    }
-    
-    .result-card {
-        border: 2px solid #000;
-    }
+.btn-primary {
+border: 2px solid #000;
+}
+
+.result-card {
+border: 2px solid #000;
+}
 }
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
+* {
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
+transition-duration: 0.01ms !important;
 }
-    </style>
+}
+</style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav>
-        <div class="logo">
-            <div class="logo-icon">
-                <svg id="fi_10041542" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg" data-name="glyph"><path d="m55.95075 31.69075h-6.05775a19.65071 19.65071 0 0 1 -.26038 2.00256 16.03611 16.03611 0 0 1 -2.19281 5.93762l-1.67211 2.39307a1.41361 1.41361 0 0 0 -.23028.69086 8.5908 8.5908 0 0 1 -3.30426 6.10791l-3.28416 2.54323a5.3276 5.3276 0 0 1 -7.89008-1.67224 3.68067 3.68067 0 0 1 -.42047-2.40308 18.37323 18.37323 0 0 0 -.49139-5.17657 22.63262 22.63262 0 0 0 -.87091-2.87384q-1.81714.00054-3.63434.00018c-3.99341.401-6.96057-1.42859-6.54822-5.54736a9.72484 9.72484 0 0 1 .34033-2.00232h-8.83132a19.85331 19.85331 0 0 0 1.1014 2.00254 6.81508 6.81508 0 0 0 2.66345 2.78357 3.09151 3.09151 0 0 1 2.09266 2.91376v4.84619a3.07559 3.07559 0 0 1 -.52063 1.71222l-3.52454 5.21667c15.70106 17.90259 45.66331 6.81189 45.72856-17.28247a2.19841 2.19841 0 0 0 -2.19275-2.1925z"></path><path d="m14.45752 44.23683v-4.84619a1.13818 1.13818 0 0 0 -.781-1.04139c-2.39063-.89776-4.26508-4.36535-5.2768-6.6585a2.249 2.249 0 0 0 -2.54315 2.19281 26.03983 26.03983 0 0 0 5.22662 15.6701c.73212-1.05817 2.45057-3.63562 3.19416-4.726a1.029 1.029 0 0 0 .18017-.59083z"></path><path d="m24.44043 18.89418a39.97572 39.97572 0 0 1 -7.0191-4.44562 1.00285 1.00285 0 0 1 1.28167-1.54193c3.06457 2.56689 8.503 5.225 11.82519 6.71863.00415 3.1676-.003 8.87066 0 12.06549h-9.02159c-.70154 2.22644-.93213 5.44873 2.283 5.557l6.1878-.00988c.81928-.03406 1.0141.87719 1.24158 1.47186a22.60275 22.60275 0 0 1 1.39178 9.4021 3.26521 3.26521 0 0 0 5.11652 1.672l3.2843-2.54315a6.65391 6.65391 0 0 0 2.53326-4.696c-.02453-1.27832 1.63215-3.05493 2.25293-4.06531a15.7 15.7 0 0 0 2.08258-6.78863h-15.34959c.00007-.53955-.00006-2.57416 0-3.15412 4.34528-3.46942 9.58613-7.4389 14.69886-9.28192a1.00893 1.00893 0 1 1 .851 1.82239 39.32031 39.32031 0 0 0 -8.621 4.76611 10.80486 10.80486 0 0 0 8.90149-.28033 12.15665 12.15665 0 0 0 6.59839-10.934v-4.81624a1.00679 1.00679 0 0 0 -1.53193-.85107 16.00733 16.00733 0 0 1 -6.85882 2.303 9.99817 9.99817 0 0 0 -9.59229 8.33081l-.56079 3.46429c-1.52191 1.08142-2.87365 2.12281-3.88489 2.91376v-16.81154a1.0014 1.0014 0 0 0 -2.00256 0v8.35064c-.741-.3504-1.67224-.801-2.67352-1.31164-.04077-3.27393-3.19647-9.72974-9.99292-9.74243-.95111-.03015-3.11383-.37055-6.85864-2.38312-2.67383-.71253-2.27869 3.75781-.70093 8.03033 1.98716 5.49597 8.59556 8.47815 14.13822 6.78852z"></path></svg>
-            </div>
-            <div class="logo-text">
-                <h1>FoodSecure</h1>
-                <p>Prediction AI</p>
-            </div>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#tentang">Tentang</a></li>
-            <li><a href="#prediksi">Prediksi</a></li>
-            <li><a href="#edukasi">Edukasi</a></li>
-            <li><a href="#faq">FAQ</a></li>
-        </ul>
-        <a href="#prediksi" class="btn-primary">Mulai Sekarang</a>
-    </nav>
+<!-- NAVBAR -->
+<nav>
+<div class="logo">
+<div class="logo-icon">
+<svg id="fi_10041542" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg" data-name="glyph"><path d="m55.95075 31.69075h-6.05775a19.65071 19.65071 0 0 1 -.26038 2.00256 16.03611 16.03611 0 0 1 -2.19281 5.93762l-1.67211 2.39307a1.41361 1.41361 0 0 0 -.23028.69086 8.5908 8.5908 0 0 1 -3.30426 6.10791l-3.28416 2.54323a5.3276 5.3276 0 0 1 -7.89008-1.67224 3.68067 3.68067 0 0 1 -.42047-2.40308 18.37323 18.37323 0 0 0 -.49139-5.17657 22.63262 22.63262 0 0 0 -.87091-2.87384q-1.81714.00054-3.63434.00018c-3.99341.401-6.96057-1.42859-6.54822-5.54736a9.72484 9.72484 0 0 1 .34033-2.00232h-8.83132a19.85331 19.85331 0 0 0 1.1014 2.00254 6.81508 6.81508 0 0 0 2.66345 2.78357 3.09151 3.09151 0 0 1 2.09266 2.91376v4.84619a3.07559 3.07559 0 0 1 -.52063 1.71222l-3.52454 5.21667c15.70106 17.90259 45.66331 6.81189 45.72856-17.28247a2.19841 2.19841 0 0 0 -2.19275-2.1925z"></path><path d="m14.45752 44.23683v-4.84619a1.13818 1.13818 0 0 0 -.781-1.04139c-2.39063-.89776-4.26508-4.36535-5.2768-6.6585a2.249 2.249 0 0 0 -2.54315 2.19281 26.03983 26.03983 0 0 0 5.22662 15.6701c.73212-1.05817 2.45057-3.63562 3.19416-4.726a1.029 1.029 0 0 0 .18017-.59083z"></path><path d="m24.44043 18.89418a39.97572 39.97572 0 0 1 -7.0191-4.44562 1.00285 1.00285 0 0 1 1.28167-1.54193c3.06457 2.56689 8.503 5.225 11.82519 6.71863.00415 3.1676-.003 8.87066 0 12.06549h-9.02159c-.70154 2.22644-.93213 5.44873 2.283 5.557l6.1878-.00988c.81928-.03406 1.0141.87719 1.24158 1.47186a22.60275 22.60275 0 0 1 1.39178 9.4021 3.26521 3.26521 0 0 0 5.11652 1.672l3.2843-2.54315a6.65391 6.65391 0 0 0 2.53326-4.696c-.02453-1.27832 1.63215-3.05493 2.25293-4.06531a15.7 15.7 0 0 0 2.08258-6.78863h-15.34959c.00007-.53955-.00006-2.57416 0-3.15412 4.34528-3.46942 9.58613-7.4389 14.69886-9.28192a1.00893 1.00893 0 1 1 .851 1.82239 39.32031 39.32031 0 0 0 -8.621 4.76611 10.80486 10.80486 0 0 0 8.90149-.28033 12.15665 12.15665 0 0 0 6.59839-10.934v-4.81624a1.00679 1.00679 0 0 0 -1.53193-.85107 16.00733 16.00733 0 0 1 -6.85882 2.303 9.99817 9.99817 0 0 0 -9.59229 8.33081l-.56079 3.46429c-1.52191 1.08142-2.87365 2.12281-3.88489 2.91376v-16.81154a1.0014 1.0014 0 0 0 -2.00256 0v8.35064c-.741-.3504-1.67224-.801-2.67352-1.31164-.04077-3.27393-3.19647-9.72974-9.99292-9.74243-.95111-.03015-3.11383-.37055-6.85864-2.38312-2.67383-.71253-2.27869 3.75781-.70093 8.03033 1.98716 5.49597 8.59556 8.47815 14.13822 6.78852z"></path></svg>
+</div>
+<div class="logo-text">
+<h1>FoodSecure</h1>
+<p>Prediction AI</p>
+</div>
+</div>
+<ul class="nav-links">
+<li><a href="#tentang">Tentang</a></li>
+<li><a href="#prediksi">Prediksi</a></li>
+<li><a href="#edukasi">Edukasi</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+<a href="#prediksi" class="btn-primary">Mulai Sekarang</a>
+</nav>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Prediksi Ketahanan Pangan Wilayah</h2>
-            <p>Analisis komprehensif berbasis AI yang membantu pemangku kepentingan memahami status ketahanan pangan dan mengambil keputusan strategis yang lebih baik.</p>
-            <div class="hero-buttons">
-                <a href="#prediksi" class="btn-primary">Mulai Prediksi</a>
-                <a href="#edukasi" class="btn-secondary">Pelajari Lebih Lanjut</a>
-            </div>
-        </div>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<h2>Prediksi Ketahanan Pangan Wilayah</h2>
+<p>Analisis komprehensif berbasis AI yang membantu pemangku kepentingan memahami status ketahanan pangan dan mengambil keputusan strategis yang lebih baik.</p>
+<div class="hero-buttons">
+<a href="#prediksi" class="btn-primary">Mulai Prediksi</a>
+<a href="#edukasi" class="btn-secondary">Pelajari Lebih Lanjut</a>
+</div>
+</div>
 
-        <div class="hero-visual">
-            <div class="visual-content">
-                <div class="bars-container">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <h3 class="visual-title">Data Terintegrasi</h3>
-                <p class="visual-subtitle">12 indikator pangan dianalisis dengan model<br>machine learning terkini</p>
-                <div class="badges">
-                    <span class="badge badge-green">AI-Powered</span>
-                    <span class="badge badge-blue">Real-Time</span>
-                    <span class="badge badge-purple">Akurat</span>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="hero-visual">
+<div class="visual-content">
+<div class="bars-container">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</div>
+<h3 class="visual-title">Data Terintegrasi</h3>
+<p class="visual-subtitle">12 indikator pangan dianalisis dengan model<br>machine learning terkini</p>
+<div class="badges">
+<span class="badge badge-green">AI-Powered</span>
+<span class="badge badge-blue">Real-Time</span>
+<span class="badge badge-purple">Akurat</span>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- FORM SECTION -->
-    <section class="form-section" id="prediksi" style="padding-top: 3rem;">
-        <div style="text-align: center;">
-            <span class="section-badge">Tools</span>
-        </div>
-        <h2 class="section-title">Prediksi Ketahanan Pangan</h2>
-        <p class="section-subtitle">Masukkan 12 indikator kunci ketahanan pangan<br> dengan analisis berbasis machine learning</p>
+<!-- FORM SECTION -->
+<section class="form-section" id="prediksi" style="padding-top: 3rem;">
+<div style="text-align: center;">
+<span class="section-badge">Tools</span>
+</div>
+<h2 class="section-title">Prediksi Ketahanan Pangan</h2>
+<p class="section-subtitle">Masukkan 12 indikator kunci ketahanan pangan<br> dengan analisis berbasis machine learning</p>
 
-        <div class="form-container">
-            <h3 class="form-title">Input Indikator</h3>
-            <form id="panganForm">
-                <div class="form-group">
-                    <label for="ketersediaan">Akses Jangkauan</label>
-                    <input type="number" id="ketersediaan" step="any" required>
-                </div>
-                <div class="form-group">
-                    <label for="akses_pangan">Jumlah Keluarga Miskin</label>
-                    <input type="number" id="akses_pangan" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="stabilitas_harga">Rasio Penduduk Miskin Desil 1</label>
-                    <input type="number" id="stabilitas_harga" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="kualitas_nutrisi">Rumah tangga tanpa Akses Listrik'</label>
-                    <input type="number" id="kualitas_nutrisi" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="pendapatan">Produksi Pangan</label>
-                    <input type="number" id="pendapatan" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="cakupan_pasar">Luas Lahan</label>
-                    <input type="number" id="cakupan_pasar" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="infrastruktur">Rasio Sarana Pangan</label>
-                    <input type="number" id="infrastruktur" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="produktivitas">Persentase Balita Stunting</label>
-                    <input type="number" id="produktivitas" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="kemiskinan">Proporsi Penduduk Lanjut Usia</label>
-                    <input type="number" id="kemiskinan" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="air_bersih">Rasio Rumah Tangga Tanpa Air Bersih</label>
-                    <input type="number" id="air_bersih" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="kesehatan">Rasio Tenaga Kesehatan</label>
-                    <input type="number" id="kesehatan" step="any"  required>
-                </div>
-                <div class="form-group">
-                    <label for="pendidikan_gizi">Total Keluarga Rentan Stunting</label>
-                    <input type="number" id="pendidikan_gizi" step="any"  required>
-                    
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Prediksi Ketahanan Pangan</button>
-                    <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
-                </div>
-            </form>
-            
-            <div class="result-card">
-                <div class="result-label">Food Security Score</div>
-                <div class="result-score" id="score">00.00</div>
-                <div class="result-confidence-label">Confidence</div>
-                <div class="result-confidence" id="confidence">00.00%</div>
-            </div>
-        </div>
-    </section>
+<div class="form-container">
+<h3 class="form-title">Input Indikator</h3>
+<form id="panganForm">
+<div class="form-group">
+<label for="ketersediaan">Akses Jangkauan</label>
+<input type="number" id="ketersediaan" step="any" required>
+</div>
+<div class="form-group">
+<label for="akses_pangan">Jumlah Keluarga Miskin</label>
+<input type="number" id="akses_pangan" step="any"  required>
+</div>
+<div class="form-group">
+<label for="stabilitas_harga">Rasio Penduduk Miskin Desil 1</label>
+<input type="number" id="stabilitas_harga" step="any"  required>
+</div>
+<div class="form-group">
+<label for="kualitas_nutrisi">Rumah tangga tanpa Akses Listrik'</label>
+<input type="number" id="kualitas_nutrisi" step="any"  required>
+</div>
+<div class="form-group">
+<label for="pendapatan">Produksi Pangan</label>
+<input type="number" id="pendapatan" step="any"  required>
+</div>
+<div class="form-group">
+<label for="cakupan_pasar">Luas Lahan</label>
+<input type="number" id="cakupan_pasar" step="any"  required>
+</div>
+<div class="form-group">
+<label for="infrastruktur">Rasio Sarana Pangan</label>
+<input type="number" id="infrastruktur" step="any"  required>
+</div>
+<div class="form-group">
+<label for="produktivitas">Persentase Balita Stunting</label>
+<input type="number" id="produktivitas" step="any"  required>
+</div>
+<div class="form-group">
+<label for="kemiskinan">Proporsi Penduduk Lanjut Usia</label>
+<input type="number" id="kemiskinan" step="any"  required>
+</div>
+<div class="form-group">
+<label for="air_bersih">Rasio Rumah Tangga Tanpa Air Bersih</label>
+<input type="number" id="air_bersih" step="any"  required>
+</div>
+<div class="form-group">
+<label for="kesehatan">Rasio Tenaga Kesehatan</label>
+<input type="number" id="kesehatan" step="any"  required>
+</div>
+<div class="form-group">
+<label for="pendidikan_gizi">Total Keluarga Rentan Stunting</label>
+<input type="number" id="pendidikan_gizi" step="any"  required>
 
-    <!-- RESULT SECTION -->
-    <!-- <section class="result-section">
-        <h2 class="result-title">Prediction Results</h2>
-        <div class="result-card">
-            <div class="result-label">Food Security Score</div>
-            <div class="result-score" id="score">2.473</div>
-            <div class="result-confidence-label">Confidence</div>
-            <div class="result-confidence" id="confidence">96.8%</div>
-        </div>
-    </section> -->
+</div>
+<div class="form-actions">
+<button type="submit" class="btn btn-primary">Prediksi Ketahanan Pangan</button>
+<button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+</div>
+</form>
 
-    <!-- INDICATORS SECTION -->
-    <section class="indicators-section" id="edukasi">
-        <div class="section-header">
-            <span class="section-badge">Edukasi</span>
-            <h2>Indikator Ketahanan Pangan</h2>
-            <p>Memahami faktor-faktor kunci yang mempengaruhi ketahanan pangan di wilayah Anda</p>
-        </div>
+<div class="result-card">
+<div class="result-label">Food Security Score</div>
+<div class="result-score" id="score">00.00</div>
+<div class="result-confidence-label">Confidence</div>
+<div class="result-confidence" id="confidence">00.00%</div>
+</div>
+</div>
+</section>
 
-        <div class="carousel-container">
-            <button class="carousel-nav prev" id="prevBtn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                </svg>
-            </button>
+<!-- RESULT SECTION -->
+<!-- <section class="result-section">
+       <h2 class="result-title">Prediction Results</h2>
+       <div class="result-card">
+           <div class="result-label">Food Security Score</div>
+           <div class="result-score" id="score">2.473</div>
+           <div class="result-confidence-label">Confidence</div>
+           <div class="result-confidence" id="confidence">96.8%</div>
+       </div>
+   </section> -->
 
-            <div class="carousel-wrapper" id="carousel">
-                <div class="indicator-card">
-                    <div class="card-icon icon-green">🚍</div> <!-- Akses Jangkauan -->
-                    <h3>Akses Jangkauan</h3>
-                    <p>Kemudahan dalam akses fasilitas pangan berdasarkan ketersediaan angkutan umum, jam operasional angkutan umum, dan kualitas permukaan jalan di desa</p>
-                </div>
+<!-- INDICATORS SECTION -->
+<section class="indicators-section" id="edukasi">
+<div class="section-header">
+<span class="section-badge">Edukasi</span>
+<h2>Indikator Ketahanan Pangan</h2>
+<p>Memahami faktor-faktor kunci yang mempengaruhi ketahanan pangan di wilayah Anda</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-blue">💵</div> <!-- Jumlah Keluarga Miskin -->
-                    <h3>Jumlah Keluarga Miskin</h3>
-                    <p>Jumlah rumah tangga yang dikategorikan miskin berdasarkan kriteria Badan Pusat Statistik (BPS).</p>
-                </div>
+<div class="carousel-container">
+<button class="carousel-nav prev" id="prevBtn">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+</svg>
+</button>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-purple">📉</div> <!-- Rasio Penduduk Miskin Desil 1 -->
-                    <h3>Rasio Penduduk Miskin Desil 1</h3>
-                    <p>Perbandingan antara jumlah penduduk dengan tingkat kesejahteraan pada Desil 1 dengan jumlah total penduduk.</p>
-                </div>
+<div class="carousel-wrapper" id="carousel">
+<div class="indicator-card">
+<div class="card-icon icon-green">🚍</div> <!-- Akses Jangkauan -->
+<h3>Akses Jangkauan</h3>
+<p>Kemudahan dalam akses fasilitas pangan berdasarkan ketersediaan angkutan umum, jam operasional angkutan umum, dan kualitas permukaan jalan di desa</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-orange">🔌</div> <!-- Rumah tangga tanpa akses listrik -->
-                    <h3>Rumah Tangga Tanpa Akses Listrik</h3>
-                    <p>Jumlah rumah tangga yang belum memiliki akses terhadap listrik.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-blue">💵</div> <!-- Jumlah Keluarga Miskin -->
+<h3>Jumlah Keluarga Miskin</h3>
+<p>Jumlah rumah tangga yang dikategorikan miskin berdasarkan kriteria Badan Pusat Statistik (BPS).</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-red">🌽</div> <!-- Produksi Pangan -->
-                    <h3>Produksi Pangan</h3>
-                    <p>Total hasil produksi komoditas pangan lokal (padi, jagung, kedelai, kacang tanah, ubi kayu, cabai, dan buah).</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-purple">📉</div> <!-- Rasio Penduduk Miskin Desil 1 -->
+<h3>Rasio Penduduk Miskin Desil 1</h3>
+<p>Perbandingan antara jumlah penduduk dengan tingkat kesejahteraan pada Desil 1 dengan jumlah total penduduk.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-teal">🌱</div> <!-- Luas lahan -->
-                    <h3>Luas Lahan</h3>
-                    <p>Luas area yang digunakan untuk kegiatan pertanian pangan.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-orange">🔌</div> <!-- Rumah tangga tanpa akses listrik -->
+<h3>Rumah Tangga Tanpa Akses Listrik</h3>
+<p>Jumlah rumah tangga yang belum memiliki akses terhadap listrik.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-green">🏪</div> <!-- Rasio Sarana Pangan -->
-                    <h3>Rasio Sarana Pangan</h3>
-                    <p>Perbandingan jumlah fasilitas penyedia pangan (pasar, toko, warung) terhadap jumlah penduduk.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-red">🌽</div> <!-- Produksi Pangan -->
+<h3>Produksi Pangan</h3>
+<p>Total hasil produksi komoditas pangan lokal (padi, jagung, kedelai, kacang tanah, ubi kayu, cabai, dan buah).</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-blue">🍽️</div> <!-- Persentase balita stunting -->
-                    <h3>Persentase Balita Stunting</h3>
-                    <p>Persentase balita (bawah lima tahun) yang mengalami kondisi gagal tumbuh akibat kekurangan gizi kronis.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-teal">🌱</div> <!-- Luas lahan -->
+<h3>Luas Lahan</h3>
+<p>Luas area yang digunakan untuk kegiatan pertanian pangan.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-purple">👴</div> <!-- Proporsi Penduduk Lanjut Usia -->
-                    <h3>Proporsi Penduduk Lanjut Usia</h3>
-                    <p>Persentase penduduk usia ≥60 tahun terhadap total penduduk.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-green">🏪</div> <!-- Rasio Sarana Pangan -->
+<h3>Rasio Sarana Pangan</h3>
+<p>Perbandingan jumlah fasilitas penyedia pangan (pasar, toko, warung) terhadap jumlah penduduk.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-orange">🚱</div> <!-- Rasio Rumah Tangga Tanpa Air Bersih -->
-                    <h3>Rasio Rumah Tangga Tanpa Air Bersih</h3>
-                    <p>Perbandingan antara jumlah rumah tangga yang tanpa akses air bersih dengan total jumlah rumah tangga.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-blue">🍽️</div> <!-- Persentase balita stunting -->
+<h3>Persentase Balita Stunting</h3>
+<p>Persentase balita (bawah lima tahun) yang mengalami kondisi gagal tumbuh akibat kekurangan gizi kronis.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-red">🩺</div> <!-- Rasio Tenaga Kesehatan -->
-                    <h3>Rasio Tenaga Kesehatan</h3>
-                    <p>Perbandingan jumlah tenaga kesehatan (dokter, bidan, perawat, dll.) terhadap jumlah penduduk.</p>
-                </div>
+<div class="indicator-card">
+<div class="card-icon icon-purple">👴</div> <!-- Proporsi Penduduk Lanjut Usia -->
+<h3>Proporsi Penduduk Lanjut Usia</h3>
+<p>Persentase penduduk usia ≥60 tahun terhadap total penduduk.</p>
+</div>
 
-                <div class="indicator-card">
-                    <div class="card-icon icon-teal">🍞</div> <!-- Keluarga Rentan Stunting -->
-                    <h3>Keluarga Rentan Stunting</h3>
-                    <p>Jumlah keluarga dengan risiko tinggi mengalami masalah gizi (misalnya stunting, kemiskinan, dan kerentanan sosial ekonomi).</p>
-                </div>
-            </div>
+<div class="indicator-card">
+<div class="card-icon icon-orange">🚱</div> <!-- Rasio Rumah Tangga Tanpa Air Bersih -->
+<h3>Rasio Rumah Tangga Tanpa Air Bersih</h3>
+<p>Perbandingan antara jumlah rumah tangga yang tanpa akses air bersih dengan total jumlah rumah tangga.</p>
+</div>
+
+<div class="indicator-card">
+<div class="card-icon icon-red">🩺</div> <!-- Rasio Tenaga Kesehatan -->
+<h3>Rasio Tenaga Kesehatan</h3>
+<p>Perbandingan jumlah tenaga kesehatan (dokter, bidan, perawat, dll.) terhadap jumlah penduduk.</p>
+</div>
+
+<div class="indicator-card">
+<div class="card-icon icon-teal">🍞</div> <!-- Keluarga Rentan Stunting -->
+<h3>Keluarga Rentan Stunting</h3>
+<p>Jumlah keluarga dengan risiko tinggi mengalami masalah gizi (misalnya stunting, kemiskinan, dan kerentanan sosial ekonomi).</p>
+</div>
+</div>
 
 
-            <button class="carousel-nav next" id="nextBtn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                </svg>
-            </button>
-        </div>
+<button class="carousel-nav next" id="nextBtn">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+</svg>
+</button>
+</div>
 
-        <div class="carousel-dots" id="dots"></div>
-    </section>
+<div class="carousel-dots" id="dots"></div>
+</section>
 
-    <!-- FAQ SECTION -->
-    <section class="faq-section" id="faq">
-        <div class="faq-header">
-            <span class="section-badge">FAQ</span>
-            <h2>Frequently Asked Questions</h2>
-            <p>Temukan jawaban untuk pertanyaan umum tentang prediksi ketahanan pangan</p>
-        </div>
+<!-- FAQ SECTION -->
+<section class="faq-section" id="faq">
+<div class="faq-header">
+<span class="section-badge">FAQ</span>
+<h2>Frequently Asked Questions</h2>
+<p>Temukan jawaban untuk pertanyaan umum tentang prediksi ketahanan pangan</p>
+</div>
 
-        <div class="faq-container">
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Apa itu prediksi ketahanan pangan?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Prediksi ketahanan pangan adalah analisis berbasis data yang menggunakan machine learning untuk mengevaluasi kemampuan suatu wilayah dalam menyediakan akses pangan yang cukup, aman, dan bergizi untuk seluruh populasinya.</p>
-                </div>
-            </div>
+<div class="faq-container">
+<div class="faq-item">
+<button class="faq-question">
+<span>Apa itu prediksi ketahanan pangan?</span>
+<svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+</svg>
+</button>
+<div class="faq-answer">
+<p>Prediksi ketahanan pangan adalah analisis berbasis data yang menggunakan machine learning untuk mengevaluasi kemampuan suatu wilayah dalam menyediakan akses pangan yang cukup, aman, dan bergizi untuk seluruh populasinya.</p>
+</div>
+</div>
 
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Bagaimana cara menggunakan tools ini?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Masukkan data indikator yang tersedia, dan sistem kami akan memproses informasi tersebut menggunakan algoritma AI untuk menghasilkan prediksi status ketahanan pangan beserta rekomendasi tindakan.</p>
-                </div>
-            </div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Bagaimana cara menggunakan tools ini?</span>
+<svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+</svg>
+</button>
+<div class="faq-answer">
+<p>Masukkan data indikator yang tersedia, dan sistem kami akan memproses informasi tersebut menggunakan algoritma AI untuk menghasilkan prediksi status ketahanan pangan beserta rekomendasi tindakan.</p>
+</div>
+</div>
 
-            <!-- <div class="faq-item">
-                <button class="faq-question">
-                    <span>Apa arti skor prediksi yang dihasilkan?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Skor prediksi menunjukkan tingkat ketahanan pangan dalam skala 0-100. Skor 0-40 menandakan ketahanan pangan rendah, 41-70 menandakan sedang, dan 71-100 menandakan ketahanan pangan tinggi di wilayah tersebut.</p>
-                </div>
-            </div> -->
+<!-- <div class="faq-item">
+               <button class="faq-question">
+                   <span>Apa arti skor prediksi yang dihasilkan?</span>
+                   <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                   </svg>
+               </button>
+               <div class="faq-answer">
+                   <p>Skor prediksi menunjukkan tingkat ketahanan pangan dalam skala 0-100. Skor 0-40 menandakan ketahanan pangan rendah, 41-70 menandakan sedang, dan 71-100 menandakan ketahanan pangan tinggi di wilayah tersebut.</p>
+               </div>
+           </div> -->
 
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Apakah data saya aman?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Ya, keamanan data adalah prioritas kami. Semua informasi yang Anda masukkan dienkripsi dan disimpan dengan standar keamanan tinggi. Kami tidak membagikan data Anda kepada pihak ketiga tanpa persetujuan eksplisit.</p>
-                </div>
-            </div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Apakah data saya aman?</span>
+<svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+</svg>
+</button>
+<div class="faq-answer">
+<p>Ya, keamanan data adalah prioritas kami. Semua informasi yang Anda masukkan dienkripsi dan disimpan dengan standar keamanan tinggi. Kami tidak membagikan data Anda kepada pihak ketiga tanpa persetujuan eksplisit.</p>
+</div>
+</div>
 
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Berapa sering saya harus melakukan prediksi?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Kami merekomendasikan untuk melakukan prediksi setiap 3-6 bulan sekali, atau ketika ada perubahan signifikan dalam kondisi ekonomi, sosial, atau iklim di wilayah Anda untuk mendapatkan analisis yang paling akurat.</p>
-                </div>
-            </div>
+<div class="faq-item">
+<button class="faq-question">
+<span>Berapa sering saya harus melakukan prediksi?</span>
+<svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+</svg>
+</button>
+<div class="faq-answer">
+<p>Kami merekomendasikan untuk melakukan prediksi setiap 3-6 bulan sekali, atau ketika ada perubahan signifikan dalam kondisi ekonomi, sosial, atau iklim di wilayah Anda untuk mendapatkan analisis yang paling akurat.</p>
+</div>
+</div>
 
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Siapa yang bisa menggunakan platform ini?</span>
-                    <svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Platform ini dirancang untuk pemerintah daerah, organisasi non-profit, peneliti, dan stakeholder lain yang berkepentingan dalam perencanaan dan monitoring ketahanan pangan di berbagai tingkat wilayah.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="faq-item">
+<button class="faq-question">
+<span>Siapa yang bisa menggunakan platform ini?</span>
+<svg class="faq-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+</svg>
+</button>
+<div class="faq-answer">
+<p>Platform ini dirancang untuk pemerintah daerah, organisasi non-profit, peneliti, dan stakeholder lain yang berkepentingan dalam perencanaan dan monitoring ketahanan pangan di berbagai tingkat wilayah.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-top">
-            <div class="footer-col footer-brand">
-                <div class="logo">
-                    <svg id="fi_10041542" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg" data-name="glyph"><path d="m55.95075 31.69075h-6.05775a19.65071 19.65071 0 0 1 -.26038 2.00256 16.03611 16.03611 0 0 1 -2.19281 5.93762l-1.67211 2.39307a1.41361 1.41361 0 0 0 -.23028.69086 8.5908 8.5908 0 0 1 -3.30426 6.10791l-3.28416 2.54323a5.3276 5.3276 0 0 1 -7.89008-1.67224 3.68067 3.68067 0 0 1 -.42047-2.40308 18.37323 18.37323 0 0 0 -.49139-5.17657 22.63262 22.63262 0 0 0 -.87091-2.87384q-1.81714.00054-3.63434.00018c-3.99341.401-6.96057-1.42859-6.54822-5.54736a9.72484 9.72484 0 0 1 .34033-2.00232h-8.83132a19.85331 19.85331 0 0 0 1.1014 2.00254 6.81508 6.81508 0 0 0 2.66345 2.78357 3.09151 3.09151 0 0 1 2.09266 2.91376v4.84619a3.07559 3.07559 0 0 1 -.52063 1.71222l-3.52454 5.21667c15.70106 17.90259 45.66331 6.81189 45.72856-17.28247a2.19841 2.19841 0 0 0 -2.19275-2.1925z"></path><path d="m14.45752 44.23683v-4.84619a1.13818 1.13818 0 0 0 -.781-1.04139c-2.39063-.89776-4.26508-4.36535-5.2768-6.6585a2.249 2.249 0 0 0 -2.54315 2.19281 26.03983 26.03983 0 0 0 5.22662 15.6701c.73212-1.05817 2.45057-3.63562 3.19416-4.726a1.029 1.029 0 0 0 .18017-.59083z"></path><path d="m24.44043 18.89418a39.97572 39.97572 0 0 1 -7.0191-4.44562 1.00285 1.00285 0 0 1 1.28167-1.54193c3.06457 2.56689 8.503 5.225 11.82519 6.71863.00415 3.1676-.003 8.87066 0 12.06549h-9.02159c-.70154 2.22644-.93213 5.44873 2.283 5.557l6.1878-.00988c.81928-.03406 1.0141.87719 1.24158 1.47186a22.60275 22.60275 0 0 1 1.39178 9.4021 3.26521 3.26521 0 0 0 5.11652 1.672l3.2843-2.54315a6.65391 6.65391 0 0 0 2.53326-4.696c-.02453-1.27832 1.63215-3.05493 2.25293-4.06531a15.7 15.7 0 0 0 2.08258-6.78863h-15.34959c.00007-.53955-.00006-2.57416 0-3.15412 4.34528-3.46942 9.58613-7.4389 14.69886-9.28192a1.00893 1.00893 0 1 1 .851 1.82239 39.32031 39.32031 0 0 0 -8.621 4.76611 10.80486 10.80486 0 0 0 8.90149-.28033 12.15665 12.15665 0 0 0 6.59839-10.934v-4.81624a1.00679 1.00679 0 0 0 -1.53193-.85107 16.00733 16.00733 0 0 1 -6.85882 2.303 9.99817 9.99817 0 0 0 -9.59229 8.33081l-.56079 3.46429c-1.52191 1.08142-2.87365 2.12281-3.88489 2.91376v-16.81154a1.0014 1.0014 0 0 0 -2.00256 0v8.35064c-.741-.3504-1.67224-.801-2.67352-1.31164-.04077-3.27393-3.19647-9.72974-9.99292-9.74243-.95111-.03015-3.11383-.37055-6.85864-2.38312-2.67383-.71253-2.27869 3.75781-.70093 8.03033 1.98716 5.49597 8.59556 8.47815 14.13822 6.78852z"></path></svg>
-                    FoodSecure
-                </div>
-                <p>Sistem prediksi ketahanan pangan berbasis AI untuk membantu pengambilan keputusan strategis.</p>
-            </div>
+<!-- FOOTER -->
+<footer>
+<div class="footer-top">
+<div class="footer-col footer-brand">
+<div class="logo">
+<svg id="fi_10041542" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg" data-name="glyph"><path d="m55.95075 31.69075h-6.05775a19.65071 19.65071 0 0 1 -.26038 2.00256 16.03611 16.03611 0 0 1 -2.19281 5.93762l-1.67211 2.39307a1.41361 1.41361 0 0 0 -.23028.69086 8.5908 8.5908 0 0 1 -3.30426 6.10791l-3.28416 2.54323a5.3276 5.3276 0 0 1 -7.89008-1.67224 3.68067 3.68067 0 0 1 -.42047-2.40308 18.37323 18.37323 0 0 0 -.49139-5.17657 22.63262 22.63262 0 0 0 -.87091-2.87384q-1.81714.00054-3.63434.00018c-3.99341.401-6.96057-1.42859-6.54822-5.54736a9.72484 9.72484 0 0 1 .34033-2.00232h-8.83132a19.85331 19.85331 0 0 0 1.1014 2.00254 6.81508 6.81508 0 0 0 2.66345 2.78357 3.09151 3.09151 0 0 1 2.09266 2.91376v4.84619a3.07559 3.07559 0 0 1 -.52063 1.71222l-3.52454 5.21667c15.70106 17.90259 45.66331 6.81189 45.72856-17.28247a2.19841 2.19841 0 0 0 -2.19275-2.1925z"></path><path d="m14.45752 44.23683v-4.84619a1.13818 1.13818 0 0 0 -.781-1.04139c-2.39063-.89776-4.26508-4.36535-5.2768-6.6585a2.249 2.249 0 0 0 -2.54315 2.19281 26.03983 26.03983 0 0 0 5.22662 15.6701c.73212-1.05817 2.45057-3.63562 3.19416-4.726a1.029 1.029 0 0 0 .18017-.59083z"></path><path d="m24.44043 18.89418a39.97572 39.97572 0 0 1 -7.0191-4.44562 1.00285 1.00285 0 0 1 1.28167-1.54193c3.06457 2.56689 8.503 5.225 11.82519 6.71863.00415 3.1676-.003 8.87066 0 12.06549h-9.02159c-.70154 2.22644-.93213 5.44873 2.283 5.557l6.1878-.00988c.81928-.03406 1.0141.87719 1.24158 1.47186a22.60275 22.60275 0 0 1 1.39178 9.4021 3.26521 3.26521 0 0 0 5.11652 1.672l3.2843-2.54315a6.65391 6.65391 0 0 0 2.53326-4.696c-.02453-1.27832 1.63215-3.05493 2.25293-4.06531a15.7 15.7 0 0 0 2.08258-6.78863h-15.34959c.00007-.53955-.00006-2.57416 0-3.15412 4.34528-3.46942 9.58613-7.4389 14.69886-9.28192a1.00893 1.00893 0 1 1 .851 1.82239 39.32031 39.32031 0 0 0 -8.621 4.76611 10.80486 10.80486 0 0 0 8.90149-.28033 12.15665 12.15665 0 0 0 6.59839-10.934v-4.81624a1.00679 1.00679 0 0 0 -1.53193-.85107 16.00733 16.00733 0 0 1 -6.85882 2.303 9.99817 9.99817 0 0 0 -9.59229 8.33081l-.56079 3.46429c-1.52191 1.08142-2.87365 2.12281-3.88489 2.91376v-16.81154a1.0014 1.0014 0 0 0 -2.00256 0v8.35064c-.741-.3504-1.67224-.801-2.67352-1.31164-.04077-3.27393-3.19647-9.72974-9.99292-9.74243-.95111-.03015-3.11383-.37055-6.85864-2.38312-2.67383-.71253-2.27869 3.75781-.70093 8.03033 1.98716 5.49597 8.59556 8.47815 14.13822 6.78852z"></path></svg>
+FoodSecure
+</div>
+<p>Sistem prediksi ketahanan pangan berbasis AI untuk membantu pengambilan keputusan strategis.</p>
+</div>
 
-            <div class="footer-col">
-                <h4>Produk</h4>
-                <ul>
-                    <li><a href="#">Prediksi Ketahanan Pangan</a></li>
-                    <li><a href="#">Edukasi & Panduan</a></li>
-                    <li><a href="#">Dashboard Analytics</a></li>
-                    <li><a href="#">API Integration</a></li>
-                </ul>
-            </div>
+<div class="footer-col">
+<h4>Produk</h4>
+<ul>
+<li><a href="#">Prediksi Ketahanan Pangan</a></li>
+<li><a href="#">Edukasi & Panduan</a></li>
+<li><a href="#">Dashboard Analytics</a></li>
+<li><a href="#">API Integration</a></li>
+</ul>
+</div>
 
-            <div class="footer-col">
-                <h4>Sumber Daya</h4>
-                <ul>
-                    <li><a href="#">Dokumentasi</a></li>
-                    <li><a href="#">Blog & Artikel</a></li>
-                    <li><a href="#">Webinar & Event</a></li>
-                    <li><a href="#">Hubungi Kami</a></li>
-                </ul>
-            </div>
+<div class="footer-col">
+<h4>Sumber Daya</h4>
+<ul>
+<li><a href="#">Dokumentasi</a></li>
+<li><a href="#">Blog & Artikel</a></li>
+<li><a href="#">Webinar & Event</a></li>
+<li><a href="#">Hubungi Kami</a></li>
+</ul>
+</div>
 
-            <div class="footer-col">
-                <h4>Hubungi Kami</h4>
-                <div class="contact-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 2v.01L12 13 4 6.01V6h16Z"/>
-                    </svg>
-                    <a href="mailto:info@foodsecure.ai">info@foodsecure.ai</a>
-                </div>
-                <div class="contact-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21 11.36 11.36 0 0 0 3.55.57 1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1A16 16 0 0 1 4 6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.55 1 1 0 0 1-.21 1.11Z"/>
-                    </svg>
-                    <a href="tel:+62271234567">+62 (27) 1234-567</a>
-                </div>
-                <div class="contact-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/>
-                    </svg>
-                    <span>Jakarta, Indonesia</span>
-                </div>
-            </div>
-        </div>
+<div class="footer-col">
+<h4>Hubungi Kami</h4>
+<div class="contact-item">
+<svg viewBox="0 0 24 24">
+<path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 2v.01L12 13 4 6.01V6h16Z"/>
+</svg>
+<a href="mailto:info@foodsecure.ai">info@foodsecure.ai</a>
+</div>
+<div class="contact-item">
+<svg viewBox="0 0 24 24">
+<path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21 11.36 11.36 0 0 0 3.55.57 1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1A16 16 0 0 1 4 6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.55 1 1 0 0 1-.21 1.11Z"/>
+</svg>
+<a href="tel:+62271234567">+62 (27) 1234-567</a>
+</div>
+<div class="contact-item">
+<svg viewBox="0 0 24 24">
+<path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/>
+</svg>
+<span>Jakarta, Indonesia</span>
+</div>
+</div>
+</div>
 
-        <div class="footer-bottom">
-            <div>© 2025 FoodSecure Prediction AI. All rights reserved.</div>
-            <div class="links">
-                <a href="#">Kebijakan Privasi</a>
-                <a href="#">Syarat & Ketentuan</a>
-                <a href="#">Sitemap</a>
-            </div>
-        </div>
-    </footer>
+<div class="footer-bottom">
+<div>© 2025 FoodSecure Prediction AI. All rights reserved.</div>
+<div class="links">
+<a href="#">Kebijakan Privasi</a>
+<a href="#">Syarat & Ketentuan</a>
+<a href="#">Sitemap</a>
+</div>
+</div>
+</footer>
 
-    <script>
-        // Configuration
-const API_URL = 'http://localhost:5000';
+<script>
+// Configuration
+//const API_URL = 'http://localhost:5000';
+    
+const API_URL = 'https://brave-determination-production.up.railway.app';        
 
 // Smooth scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+});
 });
 
 // Prediction Form Handler
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('panganForm');
-    const resetBtn = document.getElementById('resetBtn');
-    const scoreElement = document.getElementById('score');
-    const confidenceElement = document.getElementById('confidence');
-    
-    console.log('🚀 Application initialized');
-    
-    // Check API status on load
-    checkAPIStatus();
-    
-    async function checkAPIStatus() {
-        try {
-            console.log('🔍 Checking API status...');
-            const response = await fetch(`${API_URL}/api/status`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            
-            const data = await response.json();
-            console.log('✅ API Status:', data);
-            
-            if (!data.model_loaded || !data.scaler_loaded) {
-                showNotification('⚠️ Warning: Model atau Scaler belum dimuat dengan benar!', 'warning');
-            } else {
-                console.log('✅ Model and Scaler loaded successfully');
-            }
-        } catch (error) {
-            console.error('❌ API tidak dapat dijangkau:', error);
-            showNotification('❌ API tidak dapat dijangkau. Pastikan Flask server berjalan!', 'error');
-        }
-    }
-    
-    // Handle form submission
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        console.log('\n' + '='.repeat(60));
-        console.log('📤 SUBMITTING PREDICTION REQUEST');
-        console.log('='.repeat(60));
-        
-        // Disable submit button to prevent double submission
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Memproses...';
-        
-        // Collect form data
-        const formData = {
-            X1: parseFloat(document.getElementById('ketersediaan').value),
-            X2: parseFloat(document.getElementById('akses_pangan').value),
-            X3: parseFloat(document.getElementById('stabilitas_harga').value),
-            X4: parseFloat(document.getElementById('kualitas_nutrisi').value),
-            X5: parseFloat(document.getElementById('pendapatan').value),
-            X6: parseFloat(document.getElementById('cakupan_pasar').value),
-            X7: parseFloat(document.getElementById('infrastruktur').value),
-            X8: parseFloat(document.getElementById('produktivitas').value),
-            X9: parseFloat(document.getElementById('kemiskinan').value),
-            X10: parseFloat(document.getElementById('air_bersih').value),
-            X11: parseFloat(document.getElementById('kesehatan').value),
-            X12: parseFloat(document.getElementById('pendidikan_gizi').value)
-        };
-        
-        console.log('📊 Form data collected:', formData);
-        
-        // Validate data
-        const invalidFields = [];
-        Object.entries(formData).forEach(([key, value]) => {
-            if (isNaN(value) || value === null || value === undefined) {
-                invalidFields.push(key);
-            }
-        });
-        
-        if (invalidFields.length > 0) {
-            console.error('❌ Invalid fields:', invalidFields);
-            showNotification(`❌ Error: Field tidak valid: ${invalidFields.join(', ')}`, 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-            return;
-        }
-        
-        console.log('✅ All fields validated');
-        
-        // Show loading state
-        scoreElement.textContent = '...';
-        confidenceElement.textContent = '...';
-        scoreElement.style.color = '#6b7280';
-        confidenceElement.style.color = '#6b7280';
-        
-        try {
-            const url = `${API_URL}/predict`;
-            console.log('🔄 Sending POST request to:', url);
-            console.log('📦 Payload:', JSON.stringify(formData));
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            console.log('📡 Response received');
-            console.log('   Status:', response.status);
-            console.log('   Status Text:', response.statusText);
-            console.log('   Headers:', Object.fromEntries(response.headers.entries()));
-            
-            // Get response text first for debugging
-            const responseText = await response.text();
-            console.log('📄 Raw response:', responseText);
-            
-            // Try to parse as JSON
-            let data;
-            try {
-                data = JSON.parse(responseText);
-                console.log('✅ Parsed JSON:', data);
-            } catch (parseError) {
-                console.error('❌ JSON parse error:', parseError);
-                throw new Error('Response bukan JSON yang valid');
-            }
-            
-            if (!response.ok) {
-                throw new Error(data.error || `Server error: ${response.status}`);
-            }
-            
-            if (data.success) {
-                console.log('🎉 Prediction successful!');
-                console.log('   Score:', data.score);
-                console.log('   Confidence:', data.confidence);
-                
-                // Display prediction results with animation
-                scoreElement.style.color = '#059669';
-                confidenceElement.style.color = '#111';
-                
-                animateValue(scoreElement, 0, data.score, 1000, 3);
-                animateValue(confidenceElement, 0, data.confidence, 1000, 1, '%');
-                
-                // Show success message
-                showNotification('✅ Prediksi berhasil!', 'success');
-                
-                // Scroll to result
-                setTimeout(() => {
-                    const resultCard = document.querySelector('.result-card');
-                    if (resultCard) {
-                        resultCard.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'center' 
-                        });
-                    }
-                }, 300);
-                
-            } else {
-                throw new Error(data.error || 'Prediksi gagal');
-            }
-            
-        } catch (error) {
-            console.error('❌ ERROR:', error);
-            console.error('   Message:', error.message);
-            console.error('   Stack:', error.stack);
-            
-            scoreElement.textContent = 'Error';
-            confidenceElement.textContent = 'N/A';
-            scoreElement.style.color = '#dc2626';
-            confidenceElement.style.color = '#dc2626';
-            
-            let errorMessage = '';
-            
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                errorMessage = '🔌 Tidak dapat terhubung ke server.\n\nPastikan:\n1. Flask API berjalan di http://localhost:5000\n2. Tidak ada firewall yang memblokir\n3. Port 5000 tidak digunakan aplikasi lain';
-            } else {
-                errorMessage = '❌ ' + error.message;
-            }
-            
-            showNotification(errorMessage, 'error');
-            
-        } finally {
-            console.log('='.repeat(60) + '\n');
-            // Re-enable submit button
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-        }
-    });
-    
-    // Handle reset button
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
-            // Langsung reset form tanpa konfirmasi
-            form.reset();
-            scoreElement.textContent = '00.00';
-            confidenceElement.textContent = '00.00%';
-            scoreElement.style.color = '#059669';
-            confidenceElement.style.color = '#111';
-            showNotification('✅ Form telah direset', 'info');
-            console.log('🔄 Form reset');
-        });
-    }
+const form = document.getElementById('panganForm');
+const resetBtn = document.getElementById('resetBtn');
+const scoreElement = document.getElementById('score');
+const confidenceElement = document.getElementById('confidence');
 
-    
-    // Animate number changes
-    function animateValue(element, start, end, duration, decimals = 0, suffix = '') {
-        const startTime = performance.now();
-        
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            // Easing function
-            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-            const current = start + (end - start) * easeOutQuart;
-            
-            element.textContent = current.toFixed(decimals) + suffix;
-            
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            }
-        }
-        
-        requestAnimationFrame(update);
-    }
-    
-    // Show notification
-    function showNotification(message, type = 'info') {
-        // Remove existing notification if any
-        const existingNotif = document.querySelector('.notification');
-        if (existingNotif) {
-            existingNotif.remove();
-        }
-        
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => notification.classList.add('show'), 10);
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, type === 'error' ? 8000 : 5000);
-    }
+console.log('🚀 Application initialized');
+
+// Check API status on load
+checkAPIStatus();
+
+async function checkAPIStatus() {
+try {
+console.log('🔍 Checking API status...');
+const response = await fetch(`${API_URL}/api/status`, {
+method: 'GET',
+headers: {
+'Accept': 'application/json'
+}
+});
+
+if (!response.ok) {
+throw new Error(`HTTP ${response.status}`);
+}
+
+const data = await response.json();
+console.log('✅ API Status:', data);
+
+if (!data.model_loaded || !data.scaler_loaded) {
+showNotification('⚠️ Warning: Model atau Scaler belum dimuat dengan benar!', 'warning');
+} else {
+console.log('✅ Model and Scaler loaded successfully');
+}
+} catch (error) {
+console.error('❌ API tidak dapat dijangkau:', error);
+showNotification('❌ API tidak dapat dijangkau. Pastikan Flask server berjalan!', 'error');
+}
+}
+
+// Handle form submission
+form.addEventListener('submit', async function(e) {
+e.preventDefault();
+
+console.log('\n' + '='.repeat(60));
+console.log('📤 SUBMITTING PREDICTION REQUEST');
+console.log('='.repeat(60));
+
+// Disable submit button to prevent double submission
+const submitBtn = form.querySelector('button[type="submit"]');
+const originalText = submitBtn.textContent;
+submitBtn.disabled = true;
+submitBtn.textContent = '⏳ Memproses...';
+
+// Collect form data
+const formData = {
+X1: parseFloat(document.getElementById('ketersediaan').value),
+X2: parseFloat(document.getElementById('akses_pangan').value),
+X3: parseFloat(document.getElementById('stabilitas_harga').value),
+X4: parseFloat(document.getElementById('kualitas_nutrisi').value),
+X5: parseFloat(document.getElementById('pendapatan').value),
+X6: parseFloat(document.getElementById('cakupan_pasar').value),
+X7: parseFloat(document.getElementById('infrastruktur').value),
+X8: parseFloat(document.getElementById('produktivitas').value),
+X9: parseFloat(document.getElementById('kemiskinan').value),
+X10: parseFloat(document.getElementById('air_bersih').value),
+X11: parseFloat(document.getElementById('kesehatan').value),
+X12: parseFloat(document.getElementById('pendidikan_gizi').value)
+};
+
+console.log('📊 Form data collected:', formData);
+
+// Validate data
+const invalidFields = [];
+Object.entries(formData).forEach(([key, value]) => {
+if (isNaN(value) || value === null || value === undefined) {
+invalidFields.push(key);
+}
+});
+
+if (invalidFields.length > 0) {
+console.error('❌ Invalid fields:', invalidFields);
+showNotification(`❌ Error: Field tidak valid: ${invalidFields.join(', ')}`, 'error');
+submitBtn.disabled = false;
+submitBtn.textContent = originalText;
+return;
+}
+
+console.log('✅ All fields validated');
+
+// Show loading state
+scoreElement.textContent = '...';
+confidenceElement.textContent = '...';
+scoreElement.style.color = '#6b7280';
+confidenceElement.style.color = '#6b7280';
+
+try {
+const url = `${API_URL}/predict`;
+console.log('🔄 Sending POST request to:', url);
+console.log('📦 Payload:', JSON.stringify(formData));
+
+const response = await fetch(url, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Accept': 'application/json'
+},
+body: JSON.stringify(formData)
+});
+
+console.log('📡 Response received');
+console.log('   Status:', response.status);
+console.log('   Status Text:', response.statusText);
+console.log('   Headers:', Object.fromEntries(response.headers.entries()));
+
+// Get response text first for debugging
+const responseText = await response.text();
+console.log('📄 Raw response:', responseText);
+
+// Try to parse as JSON
+let data;
+try {
+data = JSON.parse(responseText);
+console.log('✅ Parsed JSON:', data);
+} catch (parseError) {
+console.error('❌ JSON parse error:', parseError);
+throw new Error('Response bukan JSON yang valid');
+}
+
+if (!response.ok) {
+throw new Error(data.error || `Server error: ${response.status}`);
+}
+
+if (data.success) {
+console.log('🎉 Prediction successful!');
+console.log('   Score:', data.score);
+console.log('   Confidence:', data.confidence);
+
+// Display prediction results with animation
+scoreElement.style.color = '#059669';
+confidenceElement.style.color = '#111';
+
+animateValue(scoreElement, 0, data.score, 1000, 3);
+animateValue(confidenceElement, 0, data.confidence, 1000, 1, '%');
+
+// Show success message
+showNotification('✅ Prediksi berhasil!', 'success');
+
+// Scroll to result
+setTimeout(() => {
+const resultCard = document.querySelector('.result-card');
+if (resultCard) {
+resultCard.scrollIntoView({ 
+behavior: 'smooth', 
+block: 'center' 
+});
+}
+}, 300);
+
+} else {
+throw new Error(data.error || 'Prediksi gagal');
+}
+
+} catch (error) {
+console.error('❌ ERROR:', error);
+console.error('   Message:', error.message);
+console.error('   Stack:', error.stack);
+
+scoreElement.textContent = 'Error';
+confidenceElement.textContent = 'N/A';
+scoreElement.style.color = '#dc2626';
+confidenceElement.style.color = '#dc2626';
+
+let errorMessage = '';
+
+if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+errorMessage = '🔌 Tidak dapat terhubung ke server.\n\nPastikan:\n1. Flask API berjalan di http://localhost:5000\n2. Tidak ada firewall yang memblokir\n3. Port 5000 tidak digunakan aplikasi lain';
+} else {
+errorMessage = '❌ ' + error.message;
+}
+
+showNotification(errorMessage, 'error');
+
+} finally {
+console.log('='.repeat(60) + '\n');
+// Re-enable submit button
+submitBtn.disabled = false;
+submitBtn.textContent = originalText;
+}
+});
+
+// Handle reset button
+if (resetBtn) {
+resetBtn.addEventListener('click', function() {
+// Langsung reset form tanpa konfirmasi
+form.reset();
+scoreElement.textContent = '00.00';
+confidenceElement.textContent = '00.00%';
+scoreElement.style.color = '#059669';
+confidenceElement.style.color = '#111';
+showNotification('✅ Form telah direset', 'info');
+console.log('🔄 Form reset');
+});
+}
+
+
+// Animate number changes
+function animateValue(element, start, end, duration, decimals = 0, suffix = '') {
+const startTime = performance.now();
+
+function update(currentTime) {
+const elapsed = currentTime - startTime;
+const progress = Math.min(elapsed / duration, 1);
+
+// Easing function
+const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+const current = start + (end - start) * easeOutQuart;
+
+element.textContent = current.toFixed(decimals) + suffix;
+
+if (progress < 1) {
+requestAnimationFrame(update);
+}
+}
+
+requestAnimationFrame(update);
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+// Remove existing notification if any
+const existingNotif = document.querySelector('.notification');
+if (existingNotif) {
+existingNotif.remove();
+}
+
+const notification = document.createElement('div');
+notification.className = `notification notification-${type}`;
+notification.textContent = message;
+
+document.body.appendChild(notification);
+
+setTimeout(() => notification.classList.add('show'), 10);
+
+setTimeout(() => {
+notification.classList.remove('show');
+setTimeout(() => notification.remove(), 300);
+}, type === 'error' ? 8000 : 5000);
+}
 });
 
 // Carousel functionality
@@ -1712,46 +1714,46 @@ let maxIndex = Math.max(0, cards.length - getCardsToShow());
 
 // Create dots
 for (let i = 0; i <= maxIndex; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToSlide(i));
-    dotsContainer.appendChild(dot);
+const dot = document.createElement('div');
+dot.className = 'dot' + (i === 0 ? ' active' : '');
+dot.addEventListener('click', () => goToSlide(i));
+dotsContainer.appendChild(dot);
 }
 
 const dots = document.querySelectorAll('.dot');
 
 function updateCarousel() {
-    carousel.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentIndex);
-    });
-    prevBtn.disabled = currentIndex === 0;
-    nextBtn.disabled = currentIndex === maxIndex;
+carousel.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
+dots.forEach((dot, index) => {
+dot.classList.toggle('active', index === currentIndex);
+});
+prevBtn.disabled = currentIndex === 0;
+nextBtn.disabled = currentIndex === maxIndex;
 }
 
 function goToSlide(index) {
-    currentIndex = Math.max(0, Math.min(index, maxIndex));
-    updateCarousel();
+currentIndex = Math.max(0, Math.min(index, maxIndex));
+updateCarousel();
 }
 
 prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-    }
+if (currentIndex > 0) {
+currentIndex--;
+updateCarousel();
+}
 });
 
 nextBtn.addEventListener('click', () => {
-    if (currentIndex < maxIndex) {
-        currentIndex++;
-        updateCarousel();
-    }
+if (currentIndex < maxIndex) {
+currentIndex++;
+updateCarousel();
+}
 });
 
 window.addEventListener('resize', () => {
-    maxIndex = Math.max(0, cards.length - getCardsToShow());
-    if (currentIndex > maxIndex) currentIndex = maxIndex;
-    updateCarousel();
+maxIndex = Math.max(0, cards.length - getCardsToShow());
+if (currentIndex > maxIndex) currentIndex = maxIndex;
+updateCarousel();
 });
 
 updateCarousel();
@@ -1760,20 +1762,20 @@ updateCarousel();
 const faqItems = document.querySelectorAll('.faq-item');
 
 faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    question.addEventListener('click', () => {
-        faqItems.forEach(otherItem => {
-            if (otherItem !== item) {
-                otherItem.classList.remove('active');
-            }
-        });
-        item.classList.toggle('active');
-    });
+const question = item.querySelector('.faq-question');
+question.addEventListener('click', () => {
+faqItems.forEach(otherItem => {
+if (otherItem !== item) {
+otherItem.classList.remove('active');
+}
+});
+item.classList.toggle('active');
+});
 });
 
 if (faqItems.length > 0) {
-    faqItems[0].classList.add('active');
+faqItems[0].classList.add('active');
 }
-    </script>
+</script>
 </body>
 </html>
